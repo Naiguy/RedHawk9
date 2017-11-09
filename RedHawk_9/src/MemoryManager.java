@@ -1,4 +1,5 @@
 
-public class MemoryManager {
-
+public class MemoryManager 
+{
+	
 }

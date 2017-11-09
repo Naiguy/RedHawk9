@@ -10,13 +10,15 @@ public class Process {
     //private static final int sysSpace = 256; // unit: MB
     //private int spaceAvail;
 
-    public void newProc(int pID, boolean hasCS,int memReq, int cpuBurst, int ioBurst) {
+    public void newProc(int pID, boolean hasCS,int memReq, int cpuBurst, int ioBurst) 
+    {
         this.pID = pID;
         this.hasCS = hasCS;
         this.memReq = memReq;
         this.cpuBurst = cpuBurst;
         this.ioBurst = ioBurst;
     }
+    
     public int getPid(){
         return pID;
     }

@@ -1,4 +1,3 @@
-
 public class MemoryManager {
 
 	static byte [][] PhysicalMemory = new byte [2][1024];
@@ -11,5 +10,7 @@ public class MemoryManager {
 		
 		
 	}
-	//each process would create a 
+	
 }
+	//each process would create a 
+

@@ -1,10 +1,5 @@
 
-public class ProcessScheduler 
+public class ProcessScheduler extends Thread
 {
-	public static void main(String[] args) 
-	{
-		
-
-	}
-
+	
 }

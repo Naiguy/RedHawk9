@@ -8,7 +8,7 @@ public class HelloWorld extends Thread
 
 	static Semaphore semaphore = new Semaphore(2);
 
-	/*static class MyATMThread extends Thread 
+	static class MyATMThread extends Thread 
 	{
 		String name = "";
 
@@ -22,7 +22,7 @@ public class HelloWorld extends Thread
 			
 		      System.out.println("Running Thread Name: "+ this.currentThread().getName());
 		      System.out.println("Running Thread Priority: "+ this.currentThread().getPriority());
-			/*try
+			try
 			{
 				System.out.println(name + " : acquiring lock...");
 				System.out.println(name + " : available Semaphore permits now: " + semaphore.availablePermits());
@@ -33,7 +33,7 @@ public class HelloWorld extends Thread
 				
 				try 
 				{
-					/*for (int i = 1; i <= 5; i++)
+					for (int i = 1; i <= 5; i++)
 					{
 						System.out.println(name + " : is performing operation " + i+ ", available Semaphore permits : " + semaphore.availablePermits());
 						// sleep 1 second
@@ -65,60 +65,39 @@ public class HelloWorld extends Thread
 			}
 			
 		}
-	}*/
+	}
 	
 
 	public static void main(String[] args) throws InterruptedException
 	{
 		System.out.println("Total available Semaphore permits : " + semaphore.availablePermits());
 		//Process p1 = new Process();
-	
+		
+		/*
 		MultiThread t1 = new MultiThread();
 		t1.setPriority(MIN_PRIORITY);
 		t1.setName("t1");
 		MultiThread t2 = new MultiThread();
 		t2.setName("T2");
 		t2.setPriority(MAX_PRIORITY);
-
 		MultiThread t3 = new MultiThread();
 		t3.setName("T3");
 		t1.start();
 		t2.start();
 		t3.start();
+		*/
 		
-		//MyATMThread t4 = new MyATMThread("D");
-		//t4.start();
+		MyATMThread t4 = new MyATMThread("D");
+		t4.start();
 
-		//MyATMThread t5 = new MyATMThread("E");
-		//t5.start();
-	
+		MyATMThread t5 = new MyATMThread("E");
+		t5.start();
 
-		//HelloWorld hw = new HelloWorld();
-		//hw.start();
+
+		HelloWorld hw = new HelloWorld();
+		hw.start();
 	
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	public void run()
@@ -148,9 +127,12 @@ public class HelloWorld extends Thread
 }
 
 
-class MultiThread extends Thread{
+/*
+   class MultiThread extends Thread
+   {
     public void run(){
         System.out.println("Running Thread Name: "+ this.currentThread().getName());
         System.out.println("Running Thread Priority: "+ this.currentThread().getPriority());
     }
 }
+*/

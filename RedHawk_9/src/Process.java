@@ -1,5 +1,6 @@
 
-public class Process {
+public class Process 
+{
     private int pID;
     private boolean hasCS; // does process has critical section?
     private int cpuBurst;
@@ -7,7 +8,7 @@ public class Process {
     private int memReq; // process size MB
 
     // May need the declarations below later on
-    //private static final int sysSpace = 256; // unit: MB
+    // private static final int sysSpace = 256; // unit: MB
     //private int spaceAvail;
 
     public void newProc(int pID, boolean hasCS,int memReq, int cpuBurst, int ioBurst) 
@@ -19,19 +20,24 @@ public class Process {
         this.ioBurst = ioBurst;
     }
     
-    public int getPid(){
+    public int getPid()
+    {
         return pID;
     }
-    public boolean getCS(){
+    public boolean getCS()
+    {
         return hasCS;
     }
-    public int getMemReq(){
+    public int getMemReq()
+    {
         return memReq;
     }
-    public int getCPUBurst(){
+    public int getCPUBurst()
+    {
         return cpuBurst;
     }
-    public int getIOBurst(){
+    public int getIOBurst()
+    {
         return ioBurst;
     }
 }

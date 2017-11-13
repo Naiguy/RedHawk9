@@ -12,7 +12,6 @@ public class Simulator {
 		System.out.println("Has a CS? " + (p1.getCS() ? "Yes" : "No"));
 		System.out.println("Memory Requirement: " + p1.getMemReq());
 		System.out.println("CPU Burst of: " + p1.getCPUBurst());
-		System.out.println("IO Burst of: " + p1.getIOBurst());
+		System.out.println("IO Burst of: " + p1.getIOBurst());	
 	}
-
 }

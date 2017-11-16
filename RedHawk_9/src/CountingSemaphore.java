@@ -17,7 +17,8 @@ public class CountingSemaphore
 		final CountingSemaphore test = new CountingSemaphore();
 		//test.addSemsToSemArray();
 		System.out.println("Number of Semaphores in array " + semArray.size());
-        /*Thread t1 = new Thread("New Thread") 
+        /*
+         Thread t1 = new Thread("New Thread") 
         {
         		@Override
             public void run()
@@ -27,7 +28,7 @@ public class CountingSemaphore
         };
         t1.setName("New Thread");
         //t1.start();
-*/
+         */
         test.mutualExclusion();
         new Thread("T3")
         {

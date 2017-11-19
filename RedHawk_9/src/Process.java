@@ -8,13 +8,15 @@ public class Process implements Runnable
     private boolean hasCS; //does process has critical section?
     private Burst[] cpuBurst;
     private Burst[] ioBurst;
+
     private int memReq; //process size MB
+
     private Condition condition;
     // May need the declarations below later on
     // private static final int sysSpace = 256; // unit: MB
     //private int spaceAvail;
 
-    public void newProc(int pID, boolean hasCS,int memReq, Burst[] cpuBurst, Burst[] ioBurst, int bc, int p) 
+    public void newProc(int pID, boolean hasCS,int memReq, Burst[] cpuBurst, Burst[] ioBurst, int bc, int p, Condition condition)
     {
         this.pID = pID;
         this.hasCS = hasCS;
@@ -23,13 +25,13 @@ public class Process implements Runnable
         this.ioBurst = ioBurst;
         this.setBaseCycle(bc);
         this.pID = p;
+        this.condition = condition;
     }
 
 	public int getBaseCycle() 
 	{
 		return baseCycle;
 	}
-
     
     public int getPid()
     {
@@ -84,5 +86,4 @@ public class Process implements Runnable
 		
 	}
 
-	
 }

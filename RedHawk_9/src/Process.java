@@ -24,7 +24,7 @@ public class Process implements Runnable
         this.cpuBurst = cpuBurst;
         this.ioBurst = ioBurst;
         this.setBaseCycle(bc);
-        this.pID = p;
+        this.setPeriod(p);
         this.condition = condition;
     }
 

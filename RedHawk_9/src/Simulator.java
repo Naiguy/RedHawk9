@@ -5,6 +5,7 @@ public class Simulator {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		ProcessScheduler pScheduler = new ProcessScheduler();
 		Burst cpuBurstP1_1 = new Burst(BurstType.CPU,5 , 0, 0,null);
 		Burst cpuBurstP1_2 = new Burst(BurstType.CPU,4 , 0, 0,null);
 		Burst cpuBurstP1_3 = new Burst(BurstType.CPU,6 , 0, 0,null);
@@ -170,6 +171,10 @@ public class Simulator {
 		Set3.add(p11);
 		Set3.add(p12);
 		Set3.add(p13);
+		
+		pScheduler.ScheduleProcesses(Set1);
+		
+		
 	}
 }
 

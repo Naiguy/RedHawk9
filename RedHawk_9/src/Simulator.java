@@ -132,19 +132,19 @@ public class Simulator {
 		Process p12 = new Process();
 		Process p13 = new Process();
 
-		p1.newProc(1,false,732,p1CPUBurstTotal,p1IOBurstTotal,0,1);
-		p2.newProc(2,false,110,p2CPUBurstTotal,p2IOBurstTotal,1,3);
-		p3.newProc(3, false, 24, p3CPUBurstTotal, p3IOBurstTotal,2,2);
-		p4.newProc(4, false, 60, p4CPUBurstTotal, p4IOBurstTotal,3,5);
-		p5.newProc(5, true, 64, p5CPUBurstTotal, p5IOBurstTotal,0,2);
-		p6.newProc(6, true, 100, p6CPUBurstTotal, p6IOBurstTotal,1,1);
-		p7.newProc(7, true, 90, p7CPUBurstTotal, p7IOBurstTotal,2,4);
-		p8.newProc(8, true, 30, p8CPUBurstTotal, p8IOBurstTotal,3,3);
-		p9.newProc(9, false,60, p9CPUBurstTotal, p9IOBurstTotal,0,1);
-		p10.newProc(10, false,300, p10CPUBurstTotal, p10IOBurstTotal,1,1);
-		p11.newProc(11, false,224, p11CPUBurstTotal, p11IOBurstTotal,1,1);
-		p12.newProc(12, false,80, p12CPUBurstTotal, p12IOBurstTotal,2,1);
-		p13.newProc(13, false,120, p13CPUBurstTotal, p13IOBurstTotal,2,1);
+		p1.newProc(1,false,32,p1CPUBurstTotal,p1IOBurstTotal,0,1,Condition.WAITING);
+		p2.newProc(2,false,110,p2CPUBurstTotal,p2IOBurstTotal,1,3,Condition.WAITING);
+		p3.newProc(3, false, 24, p3CPUBurstTotal, p3IOBurstTotal,2,2,Condition.WAITING);
+		p4.newProc(4, false, 60, p4CPUBurstTotal, p4IOBurstTotal,3,5,Condition.WAITING);
+		p5.newProc(5, true, 64, p5CPUBurstTotal, p5IOBurstTotal,0,2,Condition.WAITING);
+		p6.newProc(6, true, 100, p6CPUBurstTotal, p6IOBurstTotal,1,1,Condition.WAITING);
+		p7.newProc(7, true, 90, p7CPUBurstTotal, p7IOBurstTotal,2,4,Condition.WAITING);
+		p8.newProc(8, true, 30, p8CPUBurstTotal, p8IOBurstTotal,3,3,Condition.WAITING);
+		p9.newProc(9, false,60, p9CPUBurstTotal, p9IOBurstTotal,0,1,Condition.WAITING);
+		p10.newProc(10, false,300, p10CPUBurstTotal, p10IOBurstTotal,1,1,Condition.WAITING);
+		p11.newProc(11, false,224, p11CPUBurstTotal, p11IOBurstTotal,1,1,Condition.WAITING);
+		p12.newProc(12, false,80, p12CPUBurstTotal, p12IOBurstTotal,2,1,Condition.WAITING);
+		p13.newProc(13, false,120, p13CPUBurstTotal, p13IOBurstTotal,2,1,Condition.WAITING);
 
 		System.out.println("Process p1 has a PID of: " + p1.getPid());
 		System.out.println("Has a CS? " + (p1.getCS() ? "Yes" : "No"));

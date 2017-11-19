@@ -2,6 +2,8 @@
 public class Process 
 {
     private int pID;
+    private int baseCycle; //Starting frame of the process
+    private int period; // Ex. Process1 has period of 2 it runs every other two seconds
     private boolean hasCS; // does process has critical section?
     private Burst[] cpuBurst;
     private Burst[] ioBurst;
@@ -11,13 +13,15 @@ public class Process
     // private static final int sysSpace = 256; // unit: MB
     //private int spaceAvail;
 
-    public void newProc(int pID, boolean hasCS,int memReq, Burst[] cpuBurst, Burst[] ioBurst) 
+    public void newProc(int pID, boolean hasCS,int memReq, Burst[] cpuBurst, Burst[] ioBurst, int bc, int p) 
     {
         this.pID = pID;
         this.hasCS = hasCS;
         this.memReq = memReq;
         this.cpuBurst = cpuBurst;
         this.ioBurst = ioBurst;
+        this.baseCycle = bc;
+        this.pID = p;
     }
     
     public int getPid()

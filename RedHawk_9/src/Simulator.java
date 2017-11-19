@@ -53,7 +53,29 @@ public class Simulator {
 		Burst cpuBurstP9_2 = new Burst(BurstType.CPU, 7, 0, 0,null);
 		Burst ioBurstP9_1 = new Burst(BurstType.IO,15 ,0, 0,null);
 			
+		Burst cpuBurstP10_1 = new Burst(BurstType.CPU,3 , 0, 0,null);
+		Burst cpuBurstP10_2 = new Burst(BurstType.CPU,3 , 0, 0,null);
+		Burst cpuBurstP10_3 = new Burst(BurstType.CPU,3 , 0, 0,null);
+		Burst ioBurstP10_1 = new Burst(BurstType.IO,5,0, 0,null);
+		Burst ioBurstP10_2 = new Burst(BurstType.IO,5 ,0, 0,null);
 		
+		Burst cpuBurstP11_1 = new Burst(BurstType.CPU,8 , 0, 0,null);
+		Burst cpuBurstP11_2 = new Burst(BurstType.CPU,10 , 0, 0,null);
+		Burst ioBurstP11_1 = new Burst(BurstType.IO,6,0, 0,null);
+				
+		Burst cpuBurstP12_1 = new Burst(BurstType.CPU,1 , 0, 0,null);
+		Burst cpuBurstP12_2 = new Burst(BurstType.CPU,2 , 0, 0,null);
+		Burst cpuBurstP12_3 = new Burst(BurstType.CPU,2 , 0, 0,null);
+		Burst cpuBurstP12_4 = new Burst(BurstType.CPU,2 , 0, 0,null);
+		Burst ioBurstP12_1 = new Burst(BurstType.IO,3,0, 0,null);
+		Burst ioBurstP12_2 = new Burst(BurstType.IO,3,0, 0,null);
+		Burst ioBurstP12_3 = new Burst(BurstType.IO,3,0, 0,null);
+
+		Burst cpuBurstP13_1 = new Burst(BurstType.CPU,15 , 0, 0,null);
+		Burst cpuBurstP13_2 = new Burst(BurstType.CPU,20 , 0, 0,null);
+		Burst ioBurstP13_1 = new Burst(BurstType.IO,6,0, 0,null);
+
+
 		
 		Burst[] p1CPUBurstTotal = {cpuBurstP1_1, cpuBurstP1_2, cpuBurstP1_3};
 		Burst[] p1IOBurstTotal = {ioBurstP1_1, ioBurstP1_2};
@@ -82,6 +104,19 @@ public class Simulator {
 		Burst[] p9CPUBurstTotal = {cpuBurstP9_1,cpuBurstP9_2};
 		Burst[] p9IOBurstTotal = {ioBurstP9_1};
 		
+		Burst[] p10CPUBurstTotal = {cpuBurstP10_1,cpuBurstP10_2,cpuBurstP10_3};
+		Burst[] p10IOBurstTotal = {ioBurstP10_1,ioBurstP10_2};
+		
+		Burst[] p11CPUBurstTotal = {cpuBurstP11_1,cpuBurstP11_2};
+		Burst[] p11IOBurstTotal = {ioBurstP11_1};
+		
+		Burst[] p12CPUBurstTotal = {cpuBurstP12_1,cpuBurstP12_2,cpuBurstP12_3,cpuBurstP12_4};
+		Burst[] p12IOBurstTotal = {ioBurstP12_1,ioBurstP12_2,ioBurstP12_3};
+		
+		
+		Burst[] p13CPUBurstTotal = {cpuBurstP13_1,cpuBurstP13_2};
+		Burst[] p13IOBurstTotal = {ioBurstP13_1};
+		
 		
 		Process p1 = new Process();
 		Process p2 = new Process();
@@ -92,6 +127,10 @@ public class Simulator {
 		Process p7 = new Process();
 		Process p8 = new Process();
 		Process p9 = new Process();
+		Process p10 = new Process();
+		Process p11 = new Process();
+		Process p12 = new Process();
+		Process p13 = new Process();
 
 		p1.newProc(1,false,732,p1CPUBurstTotal,p1IOBurstTotal);
 		p2.newProc(2,false,110,p2CPUBurstTotal,p2IOBurstTotal);
@@ -102,6 +141,10 @@ public class Simulator {
 		p7.newProc(7, true, 90, p7CPUBurstTotal, p7IOBurstTotal);
 		p8.newProc(8, true, 30, p8CPUBurstTotal, p8IOBurstTotal);
 		p9.newProc(9, false,60, p9CPUBurstTotal, p9IOBurstTotal);
+		p10.newProc(10, false,300, p10CPUBurstTotal, p10IOBurstTotal);
+		p11.newProc(11, false,224, p11CPUBurstTotal, p11IOBurstTotal);
+		p12.newProc(12, false,80, p12CPUBurstTotal, p12IOBurstTotal);
+		p13.newProc(13, false,120, p13CPUBurstTotal, p13IOBurstTotal);
 
 		System.out.println("Process p1 has a PID of: " + p1.getPid());
 		System.out.println("Has a CS? " + (p1.getCS() ? "Yes" : "No"));
@@ -116,7 +159,18 @@ public class Simulator {
 		Set1.add(p4);
 		
 		ArrayList<Process> Set2 = new ArrayList<Process>();
+		Set2.add(p5);
+		Set2.add(p6);
+		Set2.add(p7);
+		Set2.add(p8);
 
+		ArrayList<Process> Set3 = new ArrayList<Process>();
+		Set3.add(p9);
+		Set3.add(p10);
+		Set3.add(p11);
+		Set3.add(p12);
+		Set3.add(p13);
+		
 		
 
 	}

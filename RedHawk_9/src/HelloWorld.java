@@ -1,7 +1,10 @@
 //import 
+import java.util.Timer;
 import java.util.concurrent.*;
+import java.time.*;
 public class HelloWorld extends Thread
 {
+	private Clock clock;
 	static Semaphore semaphore = new Semaphore(4);
 
 	static class MyATMThread extends Thread {
@@ -15,6 +18,10 @@ public class HelloWorld extends Thread
 		public void run() {
 
 			try {
+				double time = System.currentTimeMillis();
+				System.out.println("Time: " + time);
+				Clock clock;
+				Timer timer;
 				System.out.println(name + " : acquiring lock...");
 				System.out.println(name + " : available Semaphore permits now: "
 								+ semaphore.availablePermits());
@@ -25,7 +32,8 @@ public class HelloWorld extends Thread
 				try {
 
 					for (int i = 1; i <= 5; i++) {
-
+						time = System.currentTimeMillis();
+						System.out.println("Time: " + time);
 						System.out.println(name + " : is performing operation " + i
 								+ ", available Semaphore permits : "
 								+ semaphore.availablePermits());
@@ -57,6 +65,7 @@ public class HelloWorld extends Thread
 
 	public static void main(String[] args) {
 
+		
 		System.out.println("Total available Semaphore permits : "
 				+ semaphore.availablePermits());
 

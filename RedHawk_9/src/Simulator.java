@@ -132,7 +132,7 @@ public class Simulator {
 		Process p12 = new Process();
 		Process p13 = new Process();
 
-		p1.newProc(1,false,732,p1CPUBurstTotal,p1IOBurstTotal,0,1);
+		p1.newProc(1,false,32,p1CPUBurstTotal,p1IOBurstTotal,0,1);
 		p2.newProc(2,false,110,p2CPUBurstTotal,p2IOBurstTotal,1,3);
 		p3.newProc(3, false, 24, p3CPUBurstTotal, p3IOBurstTotal,2,2);
 		p4.newProc(4, false, 60, p4CPUBurstTotal, p4IOBurstTotal,3,5);

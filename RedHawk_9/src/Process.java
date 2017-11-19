@@ -1,14 +1,15 @@
+//import java.util.TimerTask;
 
-public class Process 
+public class Process implements Runnable
 {
     private int pID;
     private int baseCycle; //Starting frame of the process
-    private int period; // Ex. Process1 has period of 2 it runs every other two seconds
-    private boolean hasCS; // does process has critical section?
+    private int period; //Ex. Process1 has period of 2 it runs every other two seconds
+    private boolean hasCS; //does process has critical section?
     private Burst[] cpuBurst;
     private Burst[] ioBurst;
-    private int memReq; // process size MB
-
+    private int memReq; //process size MB
+    private Condition condition;
     // May need the declarations below later on
     // private static final int sysSpace = 256; // unit: MB
     //private int spaceAvail;
@@ -20,9 +21,15 @@ public class Process
         this.memReq = memReq;
         this.cpuBurst = cpuBurst;
         this.ioBurst = ioBurst;
-        this.baseCycle = bc;
+        this.setBaseCycle(bc);
         this.pID = p;
     }
+
+	public int getBaseCycle() 
+	{
+		return baseCycle;
+	}
+
     
     public int getPid()
     {
@@ -44,4 +51,38 @@ public class Process
     {
         return ioBurst;
     }
+    
+    public int getPeriod() 
+	{
+		return period;
+	}
+
+	public void setPeriod(int period) 
+	{
+		this.period = period;
+	}
+
+	public void setBaseCycle(int baseCycle) 
+	{
+		this.baseCycle = baseCycle;
+	}
+
+	public Condition getCondition() 
+	{
+		return condition;
+	}
+
+	public void setCondition(Condition condition) 
+	{
+		this.condition = condition;
+	}
+
+	@Override
+	public void run() 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

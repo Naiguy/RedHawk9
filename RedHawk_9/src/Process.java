@@ -1,6 +1,9 @@
+import java.util.Arrays;
+import java.util.Calendar;
+
 //import java.util.TimerTask;
 
-public class Process implements Runnable
+public class Process extends Thread
 {
     private int pID;
     private int baseCycle; //Starting frame of the process
@@ -8,7 +11,7 @@ public class Process implements Runnable
     private boolean hasCS; //does process has critical section?
     private Burst[] cpuBurst;
     private Burst[] ioBurst;
-
+    private String time;
     private int memReq; //process size MB
 
     private Condition condition;
@@ -47,7 +50,7 @@ public class Process implements Runnable
     }
     public Burst[] getCPUBurst()
     {
-        return cpuBurst;
+        return Arrays.copyOf(cpuBurst, cpuBurst.length);
     }
     public Burst[] getIOBurst()
     {
@@ -82,6 +85,34 @@ public class Process implements Runnable
 	@Override
 	public void run() 
 	{
+	  boolean timeFlag = true;
+	  while(timeFlag)
+	  {
+	        Calendar a = Calendar.getInstance();
+	        int sec = a.get(Calendar.MILLISECOND);
+	        System.out.println(this.baseCycle + ":" + sec);
+	        int waitTime=0;
+	       
+	        	//waitTime = b.getTotalTime();
+	        	System.out.println("WaitTime: "+ waitTime);
+	        
+			if(this.hasCS && this.baseCycle == sec )
+			{
+				System.out.println("Process: "+this.pID+" --- Entered Critical Section");
+				timeFlag = false;
+				
+			}
+			else
+			{
+				//System.out.println(this.hasCS);
+			}
+	        
+			try {
+	            Thread.sleep(1);
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+	  }
 		// TODO Auto-generated method stub
 		
 	}

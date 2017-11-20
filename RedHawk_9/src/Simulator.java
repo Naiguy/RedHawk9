@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 //import java.util.List;
-
 public class Simulator {
 
 	public static void main(String[] args) {
@@ -146,18 +145,19 @@ public class Simulator {
 		p11.newProc(11, false,224, p11CPUBurstTotal, p11IOBurstTotal,1,1,Condition.WAITING);
 		p12.newProc(12, false,80, p12CPUBurstTotal, p12IOBurstTotal,2,1,Condition.WAITING);
 		p13.newProc(13, false,120, p13CPUBurstTotal, p13IOBurstTotal,2,1,Condition.WAITING);
+//		System.out.println("Process p1 has a PID of: " + p1.getPid());
+//		System.out.println("Has a CS? " + (p1.getCS() ? "Yes" : "No"));
+//		System.out.println("Memory Requirement: " + p1.getMemReq());
+//		System.out.println("CPU Burst of: " + p1.getCPUBurst());
+//		System.out.println("IO Burst of: " + p1.getIOBurst());	
 
-		System.out.println("Process p1 has a PID of: " + p1.getPid());
-		System.out.println("Has a CS? " + (p1.getCS() ? "Yes" : "No"));
-		System.out.println("Memory Requirement: " + p1.getMemReq());
-		System.out.println("CPU Burst of: " + p1.getCPUBurst());
-		System.out.println("IO Burst of: " + p1.getIOBurst());	
-		
+		p1.getCPUBurst();
 		ArrayList<Process> Set1 = new ArrayList<Process>();
 		Set1.add(p1);
 		Set1.add(p2);
 		Set1.add(p3);
 		Set1.add(p4);
+		//Set1.get(0).start();
 		
 		ArrayList<Process> Set2 = new ArrayList<Process>();
 		Set2.add(p5);
@@ -172,9 +172,7 @@ public class Simulator {
 		Set3.add(p12);
 		Set3.add(p13);
 		
-		pScheduler.ScheduleProcesses(Set1);
-		
-		
+		pScheduler.ScheduleProcesses(Set2);
 	}
 }
 

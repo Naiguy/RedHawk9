@@ -3,7 +3,7 @@
 import java.util.concurrent.*;
 public class HelloWorld extends Thread
 {
-	static Semaphore semaphore = new Semaphore(4);
+	static Semaphore semaphore = new Semaphore(1);
 
 	static class MyATMThread extends Thread {
 

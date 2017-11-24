@@ -1,3 +1,5 @@
+import java.util.concurrent.locks.Condition;
+
 public class MemoryManager {
 
 	static byte [][] PhysicalMemory = new byte [2][1024];
@@ -12,6 +14,8 @@ public class MemoryManager {
 		return spaceAvail;
 		
 	}
+	
+	
 	public int reallocateMemory(Process newProcess) {
 		if(newProcess.getCondition() == Condition.FINISHED || newProcess.getCondition() == Condition.WAITING){
 			spaceAvail = spaceAvail + newProcess.getMemReq();
@@ -23,5 +27,5 @@ public class MemoryManager {
 	}
 	
 }
-	//each process would create a 
+
 

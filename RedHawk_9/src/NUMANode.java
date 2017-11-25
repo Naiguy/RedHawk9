@@ -7,9 +7,6 @@ public class NUMANode {
 	//each node has its own cache as well.
 	//There's home node that contains a directory (we can put that in the
 	//memory manager
-	// fjsdkfjdslkfjsdklfsd
-	
-	//Alg
 	
 	//Numa nodes are like houses on the same block.
 	//ideally, you do everything on the same block, but you CAN travel.

@@ -1,5 +1,7 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.concurrent.Semaphore;
 
 //import java.util.TimerTask;
 
@@ -11,13 +13,25 @@ public class Process extends Thread
     private boolean hasCS; //does process has critical section?
     private Burst[] cpuBurst;
     private Burst[] ioBurst;
+    private ArrayList<Burst> bursts;
     private String time;
     private int memReq; //process size MB
+	static Semaphore semaphore = new Semaphore(2);
 
     private Condition condition;
     // May need the declarations below later on
     // private static final int sysSpace = 256; // unit: MB
-    //private int spaceAvail;
+    // private int spaceAvail;
+    
+    public Process(int id,  boolean hasCS, int memory, ArrayList<Burst> burstsForProcess, int bc, int period,Condition condiion )
+    {
+    	  this.pID = id;
+    	  this.baseCycle = bc;
+    	  this.period = period;
+    	  this.hasCS = hasCS;
+    	  this.bursts = burstsForProcess;
+    	  this.memReq = memory;
+    }
 
     public void newProc(int pID, boolean hasCS,int memReq, Burst[] cpuBurst, Burst[] ioBurst, int bc, int p, Condition condition)
     {
@@ -92,26 +106,49 @@ public class Process extends Thread
 	        int sec = a.get(Calendar.MILLISECOND);
 	        System.out.println(this.baseCycle + ":" + sec);
 	        int waitTime=0;
-	       
-	        	//waitTime = b.getTotalTime();
+	    	try {
+        		System.out.println("Acquiring..");
+				semaphore.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        for(Burst c : this.bursts )
+        {
+	        	waitTime = c.getTotalTime();
 	        	System.out.println("WaitTime: "+ waitTime);
+	        //&& this.baseCycle == sec 
 	        
-			if(this.hasCS && this.baseCycle == sec )
+			if(this.hasCS  && c.getCriticalSection() !=0 )
 			{
 				System.out.println("Process: "+this.pID+" --- Entered Critical Section");
+				System.out.println("accessing: " + c.getData());
 				timeFlag = false;
+				try {
+					Thread.sleep(c.getCriticalSection()*100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}
 			else
 			{
 				//System.out.println(this.hasCS);
 			}
-	        
+        }
 			try {
-	            Thread.sleep(1);
+	            Thread.sleep(waitTime);
 	        } catch (InterruptedException e) {
 	            e.printStackTrace();
 	        }
+			finally
+			{
+				System.out.println(this.pID + " : releasing lock...");
+				semaphore.release();
+				System.out.println(this.pID + " : available Semaphore permits now: "
+							+ semaphore.availablePermits());
+			}
 	  }
 		// TODO Auto-generated method stub
 		

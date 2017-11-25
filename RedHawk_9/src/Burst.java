@@ -1,18 +1,28 @@
 public class Burst 
 {
 	private BurstType bt;
+	private int length;
 	private int preCST;
 	private int criticalSection;
 	private int postCST;
 	private int totalTime;
 	private String data;
+	
+	public Burst(BurstType bt, int lengthOfBurst, String s)
+	{
+		this.bt = bt;
+		this.length = lengthOfBurst;
+		this.data = s;
+		
+	}
+
 	public Burst(BurstType type, int preCSTime, int cs, int postCSTime, String d)
 	{
 		setBt(type);
 		setPreCST(preCSTime);
 		setCriticalSection(cs);
 		setPostCST(postCSTime);
-		setTotalTime(preCSTime + cs + postCSTime);	
+		setTotalTime(preCSTime + cs + postCSTime);
 		setData(d);
 	}
 	public BurstType getBt() {

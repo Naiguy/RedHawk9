@@ -12,8 +12,7 @@ public class CountingSemaphore
 	private static Semaphore countingSem6 = new Semaphore(1);
 
 	public static void main(String args[]) 
-	{
-		
+	{	
 		final CountingSemaphore test = new CountingSemaphore();
 		//test.addSemsToSemArray();
 		System.out.println("Number of Semaphores in array " + semArray.size());
@@ -62,7 +61,7 @@ public class CountingSemaphore
 
 	}
 	
-    private void mutualExclusion() 
+    public void mutualExclusion() 
     {
         try 
         {

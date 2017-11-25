@@ -29,7 +29,7 @@ public class Process extends Thread
     	  this.baseCycle = bc;
     	  this.period = period;
     	  this.hasCS = hasCS;
-    	  this.bursts = burstsForProcess;
+    	  this.setBursts(burstsForProcess);
     	  this.memReq = memory;
     	  this.condition = cond;
     }
@@ -96,63 +96,90 @@ public class Process extends Thread
 	{
 		this.condition = condition;
 	}
+	
+	public ArrayList<Burst> getBursts() 
+	{
+		return bursts;
+	}
+
+	public void setBursts(ArrayList<Burst> bursts) 
+	{
+		this.bursts = bursts;
+	}
+
 
 	@Override
 	public void run() 
 	{
-	  boolean timeFlag = true;
-	  while(timeFlag)
-	  {
-	        Calendar a = Calendar.getInstance();
-	        int sec = a.get(Calendar.MILLISECOND);
-	        System.out.println(this.baseCycle + ":" + sec);
-	        int waitTime=0;
-	    	try {
-        		System.out.println("Acquiring..");
-				semaphore.acquire();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        for(Burst c : this.bursts )
-        {
-	        	waitTime = c.getTotalTime();
-	        	System.out.println("WaitTime: "+ waitTime);
-	        //&& this.baseCycle == sec 
-	        
-			if(this.hasCS  && c.getCriticalSection() !=0 )
-			{
-				System.out.println("Process: "+this.pID+" --- Entered Critical Section");
-				System.out.println("accessing: " + c.getData());
-				timeFlag = false;
-				try {
-					Thread.sleep(c.getCriticalSection()*100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-			else
-			{
-				//System.out.println(this.hasCS);
-			}
-        }
-			try {
-	            Thread.sleep(waitTime);
-	        } catch (InterruptedException e) {
-	            e.printStackTrace();
-	        }
-			finally
-			{
-				System.out.println(this.pID + " : releasing lock...");
-				semaphore.release();
-				System.out.println(this.pID + " : available Semaphore permits now: "
-							+ semaphore.availablePermits());
-			}
-	  }
-		// TODO Auto-generated method stub
-		
+		if(this.hasCS)
+		{
+			System.out.println("Has Critical section pid" + this.pID);
+		}
+	
+	try {
+		Thread.sleep((long) this.period * 1000);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 	}
+		
+		
+		
+		
+//	  boolean timeFlag = true;
+//	  while(timeFlag)
+//	  {
+//	        Calendar a = Calendar.getInstance();
+//	        int sec = a.get(Calendar.MILLISECOND);
+//	        System.out.println(this.baseCycle + ":" + sec);
+//	        int waitTime=0;
+//	    	try {
+//        		System.out.println("Acquiring..");
+//				semaphore.acquire();
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//        for(Burst c : this.bursts )
+//        {
+//	        	waitTime = c.getTotalTime();
+//	        	System.out.println("WaitTime: "+ waitTime);
+//	        //&& this.baseCycle == sec 
+//	        
+//			if(this.hasCS  && c.getCriticalSection() !=0 )
+//			{
+//				System.out.println("Process: "+this.pID+" --- Entered Critical Section");
+//				System.out.println("accessing: " + c.getData());
+//				timeFlag = false;
+//				try {
+//					Thread.sleep(c.getCriticalSection()*100);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				
+//			}
+//			else
+//			{
+//				//System.out.println(this.hasCS);
+//			}
+//        }
+//			try {
+//	            Thread.sleep(waitTime);
+//	        } catch (InterruptedException e) {
+//	            e.printStackTrace();
+//	        }
+//			finally
+//			{
+//				System.out.println(this.pID + " : releasing lock...");
+//				semaphore.release();
+//				System.out.println(this.pID + " : available Semaphore permits now: "
+//							+ semaphore.availablePermits());
+//			}
+//	  }
+//		// TODO Auto-generated method stub
+//		
+	}
+
 
 }

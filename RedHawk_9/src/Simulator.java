@@ -1,17 +1,18 @@
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.*;
 import org.apache.commons.lang3.time.StopWatch;
 
 //import java.util.List;
 public class Simulator {
 
+	Semaphore semaphore = new Semaphore(1);
+	
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
 				
-		
 	
 //		Burst cpuBurstP1_1 = new Burst(BurstType.CPU,5 , 0, 0,null);
 //		Burst cpuBurstP1_2 = new Burst(BurstType.CPU,4 , 0, 0,null);
@@ -156,7 +157,7 @@ public class Simulator {
 		Process p2 = new Process(2,false,110,burstsP2,1,3,Condition.WAITING);
 		Process p3 = new Process(3, false, 24, burstsP3,2,2,Condition.WAITING);
 		Process p4 = new Process(4, false, 60,burstsP4,3,5,Condition.WAITING);
-		Process p5 = new Process(5, true, 64,burstsP5,0,2,Condition.WAITING);
+		Process p5 = new Process(5, true, 64,burstsP5,0,1,Condition.WAITING);
 		Process p6 = new Process(6, true, 100, burstsP6,1,1,Condition.WAITING);
 		Process p7 = new Process(7, true, 90, burstsP7,2,4,Condition.WAITING);
 		Process p8 = new Process(8, true, 30,burstsP8,3,3,Condition.WAITING);
@@ -210,22 +211,58 @@ public class Simulator {
 		
 		StopWatch st = new StopWatch();
 		st.start();
-//		st.stop();
+		//st.stop();
 		
-		int seconds = 0;
-		while(st.getTime(TimeUnit.SECONDS) < 10)
+		int time = 0;
+		while(st.getTime(TimeUnit.SECONDS) < 25)
 		{
-			
-			System.out.println(st.getTime(TimeUnit.SECONDS));
-			//System.out.println(st.getNanoTime());
-			//st.split();
-			
-			Set1.get(0).start();
+			time = (int) st.getTime(TimeUnit.SECONDS);
+			System.out.println("@Time : " + time);
+			for(int i = 0; i <Set2.size(); i ++)
+			{
+				ArrayList<Burst> burstArray = Set2.get(i).getBursts();
+				System.out.println("PID"+Set2.get(i).getPid()+" Thread State for Thread : "+Set2.get(i).getId() + Set2.get(i).getState());
+				Set2.get(i).setCondition(Condition.READY);
+				
+				
+				
+				
+				
+				System.out.println();
+				if(Set2.get(i).getBaseCycle() == time)
+				{
+					System.out.println("The base cycle for p"+Set2.get(i).getPid()+" equals " + Set2.get(i).getBaseCycle() +  ". Starting Process");
+					System.out.println("Time = " + time);
+					if(Set2.get(i).getState() != Thread.State.TERMINATED) 
+					{
+						Set2.get(i).start();
+					}
+					
+					int sum = 0;
+					for (int j =0; j < burstArray.size(); j++)
+					{
+						
+						sum = sum + burstArray.get(j).getLength();
+						
+						if(burstArray.get(j).getBt() == BurstType.IO)
+						{
+							System.out.println("Burst for pid"+Set2.get(i).getPid()+" "+burstArray.get(j) +" "+burstArray.get(j).getBt());
+						}
+						else 
+						{
+							System.out.println("Burst for pid"+Set2.get(i).getPid()+" "+burstArray.get(j) +" "+burstArray.get(j).getBt());
+						}
+					}
+					System.out.println("Burst time total " + sum);
+				}
+				if(Set2.get(i).getCS())
+				{
+					System.out.println("Got CS " + Set2.get(i).getPid());
+				}
+			}
 			
 			Thread.sleep(1000);
-			//System.out.println(st.split());
 		}
-		//pScheduler.ScheduleProcesses(Set2);
 	}
 }
 

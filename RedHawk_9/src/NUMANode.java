@@ -22,6 +22,7 @@ public class NUMANode {
 	public int totalMemory;
 	public int memoryUsed;
 	ArrayList<Process> procs = new ArrayList<Process>();
+	ArrayList<String> data = new ArrayList<String>();
 	
 	NUMANode(int mem) {
 		memoryUsed = 0;

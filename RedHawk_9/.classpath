@@ -7,5 +7,11 @@
 	<classpathentry kind="lib" path="/Users/be0754kc/Documents/CS405/commons-lang3-3.7/commons-lang3-3.7-sources.jar"/>
 	<classpathentry kind="lib" path="/Users/be0754kc/Documents/CS405/commons-lang3-3.7/commons-lang3-3.7-javadoc.jar"/>
 	<classpathentry kind="lib" path="/Users/be0754kc/Documents/CS405/commons-lang3-3.7/commons-lang3-3.7.jar"/>
+	<classpathentry kind="lib" path="/Users/zm6843vb/Downloads/commons-lang3-3.7 2.jar"/>
+	<classpathentry kind="lib" path="/Users/zm6843vb/Downloads/commons-lang3-3.7-javadoc.jar"/>
+	<classpathentry kind="lib" path="/Users/zm6843vb/Downloads/commons-lang3-3.7-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/zm6843vb/Downloads/commons-lang3-3.7-test-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/zm6843vb/Downloads/commons-lang3-3.7-tests.jar"/>
+	<classpathentry kind="lib" path="/Users/zm6843vb/Downloads/commons-lang3-3.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

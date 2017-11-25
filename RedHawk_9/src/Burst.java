@@ -13,7 +13,6 @@ public class Burst
 		this.bt = bt;
 		this.length = lengthOfBurst;
 		this.data = s;
-		
 	}
 
 	public Burst(BurstType type, int preCSTime, int cs, int postCSTime, String d)

@@ -11,8 +11,7 @@ public class Process extends Thread
     private int baseCycle; //Starting frame of the process
     private int period; //Ex. Process1 has period of 2 it runs every other two seconds
     private boolean hasCS; //does process has critical section?
-    private Burst[] cpuBurst;
-    private Burst[] ioBurst;
+
     private ArrayList<Burst> bursts;
     private String time;
     private int memReq; //process size MB

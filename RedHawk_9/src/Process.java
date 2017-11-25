@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+
 import java.util.concurrent.Semaphore;
 
-//import java.util.TimerTask;
 
 public class Process extends Thread
 {
@@ -17,13 +17,13 @@ public class Process extends Thread
     private String time;
     private int memReq; //process size MB
 	static Semaphore semaphore = new Semaphore(2);
-
+	
     private Condition condition;
     // May need the declarations below later on
     // private static final int sysSpace = 256; // unit: MB
     // private int spaceAvail;
     
-    public Process(int id,  boolean hasCS, int memory, ArrayList<Burst> burstsForProcess, int bc, int period,Condition condiion )
+    public Process(int id,  boolean hasCS, int memory, ArrayList<Burst> burstsForProcess, int bc, int period,Condition cond )
     {
     	  this.pID = id;
     	  this.baseCycle = bc;
@@ -31,6 +31,7 @@ public class Process extends Thread
     	  this.hasCS = hasCS;
     	  this.bursts = burstsForProcess;
     	  this.memReq = memory;
+    	  this.condition = cond;
     }
 
     public void newProc(int pID, boolean hasCS,int memReq, Burst[] cpuBurst, Burst[] ioBurst, int bc, int p, Condition condition)

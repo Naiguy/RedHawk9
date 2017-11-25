@@ -1,5 +1,6 @@
-public class MemoryManager 
-{
+public class MemoryManager {
+
+
 	static byte [][] PhysicalMemory = new byte [2][1024];
 	static byte [][] LogicalMemory = new byte [2][1024];
 	//static byte [][] PageRef = new byte[1][]
@@ -12,6 +13,8 @@ public class MemoryManager
 		return spaceAvail;
 		
 	}
+	
+	
 	public int reallocateMemory(Process newProcess) {
 		if(newProcess.getCondition() == Condition.FINISHED || newProcess.getCondition() == Condition.WAITING){
 			spaceAvail = spaceAvail + newProcess.getMemReq();
@@ -23,5 +26,5 @@ public class MemoryManager
 	}
 	
 }
-	//each process would create a 
+
 

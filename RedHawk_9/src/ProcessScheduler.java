@@ -23,6 +23,16 @@ public class ProcessScheduler extends Thread
 	Queue<String> readyQueue = new LinkedList<String>();
 	Queue<String> Queue = new LinkedList<String>();
 
+	
+	
+	public void addToWaitQueue(Process P)
+	{
+		
+	}
+	
+	
+	
+	
 	@SuppressWarnings("null")
 	public void ScheduleProcesses(ArrayList<Process> Set)
 	{

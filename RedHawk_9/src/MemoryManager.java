@@ -25,7 +25,7 @@ public class MemoryManager {
 	}
 	
 	public int reallocateMemory(Process newProcess) {
-		if(newProcess.getCondition() == Condition.FINISHED || newProcess.getCondition() == Condition.WAITING)
+		if(newProcess.getCondition() == Condition.TERMINATED || newProcess.getCondition() == Condition.WAITING)
 		{
 			spaceAvail = spaceAvail + newProcess.getMemReq();
 			return spaceAvail;

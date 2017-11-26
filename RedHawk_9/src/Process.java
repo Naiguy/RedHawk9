@@ -16,7 +16,7 @@ public class Process extends Thread
     private String time;
     private int memReq; //process size MB
 	static Semaphore semaphore = new Semaphore(2);
-	
+	private int totalBurstTime;
     private Condition condition;
     // May need the declarations below later on
     // private static final int sysSpace = 256; // unit: MB
@@ -31,18 +31,6 @@ public class Process extends Thread
     	  this.setBursts(burstsForProcess);
     	  this.memReq = memory;
     	  this.condition = cond;
-    }
-
-    public void newProc(int pID, boolean hasCS,int memReq, Burst[] cpuBurst, Burst[] ioBurst, int bc, int p, Condition condition)
-    {
-        this.pID = pID;
-        this.hasCS = hasCS;
-        this.memReq = memReq;
-        this.cpuBurst = cpuBurst;
-        this.ioBurst = ioBurst;
-        this.setBaseCycle(bc);
-        this.setPeriod(p);
-        this.condition = condition;
     }
 
 	public int getBaseCycle() 
@@ -62,14 +50,7 @@ public class Process extends Thread
     {
         return memReq;
     }
-    public Burst[] getCPUBurst()
-    {
-        return Arrays.copyOf(cpuBurst, cpuBurst.length);
-    }
-    public Burst[] getIOBurst()
-    {
-        return ioBurst;
-    }
+
     
     public int getPeriod() 
 	{
@@ -106,79 +87,55 @@ public class Process extends Thread
 		this.bursts = bursts;
 	}
 
-
+	public int getTotalBurstTime()
+	{
+			return totalBurstTime;
+	}
+	
+	public void setTotalBurstTime(int totalBurstTime)
+	{
+			this.totalBurstTime = totalBurstTime;
+	}
+	
 	@Override
 	public void run() 
 	{
-		if(this.hasCS)
+		Simulator sim = new Simulator();
+		int minorCycle = sim.getMinorCycle();
+		long sleepTime = 0;
+		System.out.println("IN RUN pID"+this.pID+": "+this.condition);
+		while(this.condition == Condition.RUNNING)
 		{
-			System.out.println("Has Critical section pid" + this.pID);
+			 minorCycle = sim.getMinorCycle();
+			 //do stuff with minor cycle
+			if(this.hasCS)
+			{
+				System.out.println("Has Critical section pid" + this.pID);
+			}
+			
+			try
+			{
+			int burst = 0; // index for burst array; 
+			sleepTime =  this.period * 1000;
+			int subtractFromBurst = (int) sleepTime/1000;
+			this.bursts.get(burst).setLength(this.bursts.get(burst).getLength() - subtractFromBurst);
+			System.out.println("Burst"+burst+ "Length : " + this.bursts.get(burst).getLength());
+			if(this.bursts.get(burst).getLength() >= 0)
+			{
+				burst++;
+			}
+			//this.setTotalBurstTime(this.getTotalBurstTime()-1);
+			System.out.println("PID"+this.getPid()+". In run total bt time: " + this.getTotalBurstTime() +"at time: " + sim.getTime2());
+			Thread.sleep(sleepTime);
+			
+			} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			}
+			
+			
 		}
 	
-	try {
-		Thread.sleep((long) this.period * 1000);
-	} catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
 	}
-		
-		
-		
-		
-//	  boolean timeFlag = true;
-//	  while(timeFlag)
-//	  {
-//	        Calendar a = Calendar.getInstance();
-//	        int sec = a.get(Calendar.MILLISECOND);
-//	        System.out.println(this.baseCycle + ":" + sec);
-//	        int waitTime=0;
-//	    	try {
-//        		System.out.println("Acquiring..");
-//				semaphore.acquire();
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//        for(Burst c : this.bursts )
-//        {
-//	        	waitTime = c.getTotalTime();
-//	        	System.out.println("WaitTime: "+ waitTime);
-//	        //&& this.baseCycle == sec 
-//	        
-//			if(this.hasCS  && c.getCriticalSection() !=0 )
-//			{
-//				System.out.println("Process: "+this.pID+" --- Entered Critical Section");
-//				System.out.println("accessing: " + c.getData());
-//				timeFlag = false;
-//				try {
-//					Thread.sleep(c.getCriticalSection()*100);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				
-//			}
-//			else
-//			{
-//				//System.out.println(this.hasCS);
-//			}
-//        }
-//			try {
-//	            Thread.sleep(waitTime);
-//	        } catch (InterruptedException e) {
-//	            e.printStackTrace();
-//	        }
-//			finally
-//			{
-//				System.out.println(this.pID + " : releasing lock...");
-//				semaphore.release();
-//				System.out.println(this.pID + " : available Semaphore permits now: "
-//							+ semaphore.availablePermits());
-//			}
-//	  }
-//		// TODO Auto-generated method stub
-//		
-	}
-
-
+	
 }

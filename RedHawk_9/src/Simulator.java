@@ -99,10 +99,12 @@ public class Simulator {
 			{
 				ArrayList<Burst> burstArray = Set1.get(i).getBursts();
 				int burstTotal = 0;
+				
 				for (int j =0; j < burstArray.size(); j++) // getting the burst time
 				{
 					burstTotal = burstTotal + burstArray.get(j).getLength();
 				}
+				
 				if(burstTotal <= 0)
 				{
 					Set1.get(i).setCondition(Condition.TERMINATED);
@@ -113,7 +115,7 @@ public class Simulator {
 				System.out.println("Burst time total for Process"+ Set1.get(i).getPid() +" :"+Set1.get(i).getTotalBurstTime());
 				System.out.println();
 
-			if(Set1.get(i).getState() == Thread.State.NEW && Set1.get(i).getBaseCycle() == minorCycle) 
+				if(Set1.get(i).getState() == Thread.State.NEW && Set1.get(i).getBaseCycle() == minorCycle) 
 				{
 					Set1.get(i).setCondition(Condition.RUNNING);
 					Set1.get(i).start();	

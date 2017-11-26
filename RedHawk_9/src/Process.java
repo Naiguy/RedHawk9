@@ -18,9 +18,6 @@ public class Process extends Thread
 	static Semaphore semaphore = new Semaphore(2);
 	private int totalBurstTime;
     private Condition condition;
-    // May need the declarations below later on
-    // private static final int sysSpace = 256; // unit: MB
-    // private int spaceAvail;
     
     public Process(int id,  boolean hasCS, int memory, ArrayList<Burst> burstsForProcess, int bc, int period,Condition cond )
     {
@@ -103,7 +100,11 @@ public class Process extends Thread
 		Simulator sim = new Simulator();
 		int minorCycle = sim.getMinorCycle();
 		long sleepTime = 0;
+		int minorCycleTime = 4000;
+
 		System.out.println("IN RUN pID"+this.pID+": "+this.condition);
+		System.out.println();
+
 		while(this.condition == Condition.RUNNING)
 		{
 			 minorCycle = sim.getMinorCycle();
@@ -115,25 +116,30 @@ public class Process extends Thread
 			
 			try
 			{
-			int burst = 0; // index for burst array; 
-			sleepTime =  this.period * 1000;
-			int subtractFromBurst = (int) sleepTime/1000;
-			this.bursts.get(burst).setLength(this.bursts.get(burst).getLength() - subtractFromBurst);
-			System.out.println("Burst"+burst+ "Length : " + this.bursts.get(burst).getLength());
-			if(this.bursts.get(burst).getLength() >= 0)
-			{
-				burst++;
-			}
-			//this.setTotalBurstTime(this.getTotalBurstTime()-1);
-			System.out.println("PID"+this.getPid()+". In run total bt time: " + this.getTotalBurstTime() +"at time: " + sim.getTime2());
-			Thread.sleep(sleepTime);
+				int burst = 0; // index for burst array; 
+				sleepTime =  (this.period)  * minorCycleTime;
+				int subtractFromBurst = (int) sleepTime/1000;
+				int length =this.bursts.get(burst).getLength(); 
+				int NewBurstLength =  this.bursts.get(burst).getLength() - subtractFromBurst;
+				this.bursts.get(burst).setLength(NewBurstLength);
+				System.out.println("Burst"+burst+"For pid"+this.pID+ " Length : " + length);
+				System.out.println();
+				
+				if(length <= 0)
+				{
+					burst++;
+				}
+				
+				System.out.println("PID"+this.getPid()+". In run total bt time: " + this.getTotalBurstTime() +"at time: " + sim.getTime2());
+				System.out.println();
+				System.out.println("Sleeptime: " + sleepTime+ ". For P"+ this.pID);
+				Thread.sleep(sleepTime);
 			
-			} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			} 
+			catch (InterruptedException e) 
+			{
 			e.printStackTrace();
 			}
-			
-			
 		}
 	
 	}

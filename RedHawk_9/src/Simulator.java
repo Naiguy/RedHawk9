@@ -19,7 +19,7 @@ public class Simulator {
 	
 		Bursts burstsP1 = new Bursts('C', 5, null,   'I', 5, null,   'C', 4, null,   'I', 5, null,   'C', 6, null);
 	
-		Bursts burstsP2 = new Bursts('C',3,null,   'I',6, null,   'C',3,null,   'I',6, null,    'C',3,null);
+		Bursts burstsP2 = new Bursts('C',3,null,     'I',6, null,   'C',3,null,   'I',6, null,    'C',3,null);
 
 		Bursts burstsP3 = new Bursts('C', 4, null,   'I', 3, null,   'C', 5, null );
 	
@@ -34,22 +34,15 @@ public class Simulator {
 		Bursts burstsP8 = new Bursts('C', 1, null,   'C', 3, "D2",   'C', 1, null);
 
 		Bursts burstsP9 = new Bursts('C', 6, null,   'I', 15, null,   'C', 7, null);
-
 		
-	
 		Bursts burstsP10 = new Bursts('C', 3, null,   'I', 5, null,   'C', 3, null,   'I', 5, null,   'C', 3, null);
-
-		
 		
 		Bursts burstsP11 = new Bursts('C', 8, null,   'I', 6, null,   'C', 10, null);
 
 		Bursts burstsP12 = new Bursts('C', 1, null,   'I', 3, null,   'C', 2, null,   'I', 3, null,   'C', 2, null,   	'I', 3, null,   'C', 2, null);
 		
-
-
 		Bursts burstsP13 = new Bursts('C', 15, null,  'I', 6, null,   'C', 20, null);
-		
-	
+			
 		Process p1 = new Process(1,false,32,burstsP1,0,1,Condition.WAITING);
 		Process p2 = new Process(2,false,110,burstsP2,1,3,Condition.WAITING);
 		Process p3 = new Process(3, false, 24, burstsP3,2,2,Condition.WAITING);
@@ -64,7 +57,7 @@ public class Simulator {
 		Process p12 = new Process(12, false,80, burstsP12,2,1,Condition.WAITING);
 		Process p13 = new Process(13, false,120, burstsP13,2,1,Condition.WAITING);
 		
-		ProcessScheduler pScheduler = new ProcessScheduler();
+	//	ProcessScheduler pScheduler = new ProcessScheduler();
 		
 		//p1.getCPUBurst();
 		ArrayList<Process> Set1 = new ArrayList<Process>();
@@ -86,20 +79,19 @@ public class Simulator {
 		Set3.add(p12);
 		Set3.add(p13);
 		
-		
-		st.start();
-		//st.stop();
-		
-		
+		st.start();		
 		
 		while(st.getTime(TimeUnit.SECONDS) <= 50)
 		{
 			time = (int) st.getTime(TimeUnit.SECONDS);
 			System.out.println("@Time : " + time);
-			
+			System.out.println();
+
 			if(time % 4 == minorCycleRemainder)
 			{
-				System.out.println("Minor Cycle: " + minorCycle+ ". Time  : " + time ) ;
+				System.out.println("Minor Cycle: " + minorCycle+ " over. Time  : " + time );
+				System.out.println();
+
 				minorCycle++;
 				minorCycleLength+=4;
 			}
@@ -109,30 +101,27 @@ public class Simulator {
 				int burstTotal = 0;
 				for (int j =0; j < burstArray.size(); j++) // getting the burst time
 				{
-					
 					burstTotal = burstTotal + burstArray.get(j).getLength();
-					
 				}
 				if(burstTotal <= 0)
 				{
 					Set1.get(i).setCondition(Condition.TERMINATED);
-
 				}
 								
 				//System.out.println("Burst time total for Process"+ Set1.get(i).getPid() +" :"+ sum);
 				Set1.get(i).setTotalBurstTime(burstTotal);
 				System.out.println("Burst time total for Process"+ Set1.get(i).getPid() +" :"+Set1.get(i).getTotalBurstTime());
-				if(Set1.get(i).getBaseCycle() == time)
-				{
-					if(Set1.get(i).getState() != Thread.State.TERMINATED) 
-					{
-						Set1.get(i).setCondition(Condition.RUNNING);
+				System.out.println();
 
-						Set1.get(i).start();
-					}
+			if(Set1.get(i).getState() == Thread.State.NEW && Set1.get(i).getBaseCycle() == minorCycle) 
+				{
+					Set1.get(i).setCondition(Condition.RUNNING);
+					Set1.get(i).start();	
 				}
 				
 				System.out.println("Simulator Condition for pid"+ Set1.get(i).getPid() + ": " +Set1.get(i).getCondition());
+				System.out.println();
+
 			}
 			Thread.sleep(1000); //Sleep one second for the stopwatch timer 
 		}

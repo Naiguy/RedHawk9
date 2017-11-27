@@ -20,24 +20,38 @@ public class NUMANode {
 	public int memoryUsed;
 	ArrayList<Process> procs = new ArrayList<Process>();
 	ArrayList<String> data = new ArrayList<String>();
-	
-	NUMANode(int mem) {
+	ArrayList<Process> doneProcs = new ArrayList<Process>();
+	public NUMANode(int mem) {
 		memoryUsed = 0;
 		totalMemory = mem;
 	}
 	
 	public void useMem(Process proc) {
-		if (canFit(proc.getMemReq())) {
+		
+		if(proc.getCondition() == Condition.RUNNING && !procs.contains(proc))
+		{
+			if (canFit(proc.getMemReq()))
+			{	
 			procs.add(proc);
-			memoryUsed = memoryUsed - proc.getMemReq();
+			memoryUsed = memoryUsed + proc.getMemReq();
+			}
+			else 
+			{
+				//do use alg to send elsewhere
+			}
 		}
-		else {
-			//do use alg to send elsewhere
-		}
+		
 	}
-	public void releaseMem(Process proc) {
+	public void releaseMem(Process proc) 
+	{
+		
+		if(proc.getCondition() == Condition.TERMINATED && !doneProcs.contains(proc))
+		{
 		procs.remove(proc);
-		memoryUsed = memoryUsed + proc.getMemReq();
+		memoryUsed = memoryUsed - proc.getMemReq();
+		}
+		doneProcs.add(proc);
+		
 	}
 	
 	public boolean canFit(int AmttoFit) {
@@ -49,6 +63,11 @@ public class NUMANode {
 	public boolean isFull() {
 		if (totalMemory == memoryUsed) return true;
 		else return false;
+	}
+	
+	public int getTotalMemory()
+	{
+		return totalMemory - memoryUsed;
 	}
 
 	

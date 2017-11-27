@@ -4,6 +4,8 @@ import java.util.Calendar;
 
 import java.util.concurrent.Semaphore;
 
+import javax.swing.text.html.HTMLDocument.Iterator;
+
 
 public class Process extends Thread
 {
@@ -15,7 +17,7 @@ public class Process extends Thread
     private ArrayList<Burst> bursts;
     private String time;
     private int memReq; //process size MB
-	static Semaphore semaphore = new Semaphore(2);
+	//static Semaphore semaphore = new Semaphore(2);
 	private int totalBurstTime;
     private Condition condition;
     
@@ -101,44 +103,124 @@ public class Process extends Thread
 		int minorCycle = sim.getMinorCycle();
 		long sleepTime = 0;
 		int minorCycleTime = 4000;
-
-		System.out.println("IN RUN pID"+this.pID+": "+this.condition);
-		System.out.println();
+		Semaphore sem;
 
 		while(this.condition == Condition.RUNNING)
 		{
 			 minorCycle = sim.getMinorCycle();
 			 //do stuff with minor cycle
+			sem = sim.getSem();
 			if(this.hasCS)
 			{
-				System.out.println("Has Critical section pid" + this.pID);
-			}
-			
-			try
-			{
-				int burst = 0; // index for burst array; 
-				sleepTime =  (this.period)  * minorCycleTime;
-				int subtractFromBurst = (int) sleepTime/1000;
-				int length =this.bursts.get(burst).getLength(); 
-				int NewBurstLength =  this.bursts.get(burst).getLength() - subtractFromBurst;
-				this.bursts.get(burst).setLength(NewBurstLength);
-				System.out.println("Burst"+burst+"For pid"+this.pID+ " Length : " + length);
 				System.out.println();
+				System.out.println("Has Critical section pid" + this.pID);
 				
-				if(length <= 0)
+				try
 				{
-					burst++;
+					
+					try
+					{
+						int thisPeriod = this.period-1;
+						
+						if(thisPeriod == 0)
+						{
+							thisPeriod = 1;
+						}
+						
+						int burst = 0; // index for burst array; 
+						sleepTime =  thisPeriod  * minorCycleTime;
+						int subtractFromBurst = (int) sleepTime/1000;
+						//System.out.println("Subtract from burst length =" + subtractFromBurst);
+						int length =this.bursts.get(burst).getLength(); 
+						int NewBurstLength =  length - subtractFromBurst;
+						this.bursts.get(burst).setLength(NewBurstLength);
+						
+						
+						java.util.Iterator<Burst> iterator = this.bursts.iterator();
+						System.out.println("data for p"+this.getId());
+						while(iterator.hasNext())
+						{
+						    Burst b = (Burst) iterator.next();
+							System.out.print(b.getData());
+						    if(b.getData() != null)
+						    {
+						    		sem.acquire();
+						    		//System.out.println("Counting Semaphore acquired");
+						    }
+						    if(b.getLength() <= 0)
+						    {
+						    		iterator.remove();
+						    }
+
+						}
+						System.out.println();
+						System.out.println("Run P"+this.pID+ " Condition:" + this.condition );
+						Thread.sleep(sleepTime);
+					
+					} 
+					 finally 
+					 {
+
+							// calling release() after a successful acquire()
+							System.out.println("P"+this.pID + " : releasing lock...");
+							sem.release();
+							System.out.println("P"+this.pID  + " : available Semaphore permits now: "
+										+ sem.availablePermits());
+							this.condition = Condition.WAITING;
+							
+							
+							System.out.println("Finally  P"+this.pID+ " Condition:" + this.condition );
+
+					}
+				}
+				catch (InterruptedException e) 
+				{
+				e.printStackTrace();
 				}
 				
-				System.out.println("PID"+this.getPid()+". In run total bt time: " + this.getTotalBurstTime() +"at time: " + sim.getTime2());
-				System.out.println();
-				System.out.println("Sleeptime: " + sleepTime+ ". For P"+ this.pID);
-				Thread.sleep(sleepTime);
-			
-			} 
-			catch (InterruptedException e) 
+			}
+			else
 			{
-			e.printStackTrace();
+				try
+				{
+					int thisPeriod = this.period-1;
+					
+					if(thisPeriod == 0)
+					{
+						thisPeriod = 1;
+					}
+					
+					int burst = 0; // index for burst array; 
+					sleepTime =  thisPeriod  * minorCycleTime;
+					int subtractFromBurst = (int) sleepTime/1000;
+					//System.out.println("Subtract from burst length =" + subtractFromBurst);
+					int length =this.bursts.get(burst).getLength(); 
+					int NewBurstLength =  length - subtractFromBurst;
+					this.bursts.get(burst).setLength(NewBurstLength);
+					//System.out.println("Burst"+burst+" For pid"+this.pID+ " Length : " + NewBurstLength);
+					//System.out.println();
+					
+					
+					java.util.Iterator<Burst> iterator = this.bursts.iterator();
+					//System.out.println("data for p"+this.getId());
+					while(iterator.hasNext())
+					{
+					    Burst b = (Burst) iterator.next();
+						
+					    if(b.getLength() <= 0)
+					    {
+					    		iterator.remove();
+					    }
+
+					}
+					System.out.println();
+					Thread.sleep(sleepTime);
+				
+				}
+				catch (InterruptedException e) 
+				{
+				e.printStackTrace();
+				}
 			}
 		}
 	

@@ -1,26 +1,85 @@
-import java.util.Calendar;
+import java.util.concurrent.Semaphore;
 
 public class Main {
-    public static void main(String[] args) {
-        while (true) {
-            Calendar a = Calendar.getInstance();
 
-            
+	// max 4 people
+	static Semaphore semaphore = new Semaphore(1);
 
-            String sec = Integer.toString(a.get(Calendar.SECOND));
-            String min = Integer.toString(a.get(Calendar.MINUTE));
-            String hour = Integer.toString(a.get(Calendar.HOUR_OF_DAY));
-            String mili = Integer.toString(a.get(Calendar.MILLISECOND));
-           
-            String time = hour + ":" + min + ":" + sec + ":" + mili;
+	static class MyATMThread extends Thread {
 
-            System.out.println(time);
-            
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+		String name = "";
+
+		MyATMThread(String name) {
+			this.name = name;
+		}
+
+		public void run() {
+
+			try {
+
+
+				System.out.println(name + " : acquiring lock...");
+				System.out.println(name + " : available Semaphore permits now: "
+								+ semaphore.availablePermits());
+
+				semaphore.acquire();
+				System.out.println(name + " : got the permit!");
+
+				try {
+
+					for (int i = 1; i <= 5; i++) {
+
+						System.out.println(name + " : is performing operation " + i
+								+ ", available Semaphore permits : "
+								+ semaphore.availablePermits());
+
+						// sleep 1 second
+						Thread.sleep(1000);
+
+					}
+
+				} finally {
+
+					// calling release() after a successful acquire()
+					System.out.println(name + " : releasing lock...");
+					semaphore.release();
+					System.out.println(name + " : available Semaphore permits now: "
+								+ semaphore.availablePermits());
+
+				}
+
+			} catch (InterruptedException e) {
+
+				e.printStackTrace();
+
+			}
+
+		}
+
+	}
+
+	public static void main(String[] args) {
+
+		System.out.println("Total available Semaphore permits : "
+				+ semaphore.availablePermits());
+
+		MyATMThread t1 = new MyATMThread("A");
+		t1.start();
+
+		MyATMThread t2 = new MyATMThread("B");
+		t2.start();
+
+		MyATMThread t3 = new MyATMThread("C");
+		t3.start();
+
+		MyATMThread t4 = new MyATMThread("D");
+		t4.start();
+
+		MyATMThread t5 = new MyATMThread("E");
+		t5.start();
+
+		MyATMThread t6 = new MyATMThread("F");
+		t6.start();
+
+	}
 }

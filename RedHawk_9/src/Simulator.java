@@ -126,7 +126,7 @@ public class Simulator {
 //				}
 //				//System.out.println();
 //
-//				if(process.getState() == Thread.State.NEW && process.getBaseCycle() == minorCycle) 
+//				if(process.getState() == Thread.State.NEW && process.getBaseCycle() == minorCycle && numNode.canFit(process.getMemReq())) 
 //				{
 //					process.setCondition(Condition.RUNNING);
 //					process.start();	
@@ -225,9 +225,153 @@ public class Simulator {
 		
 		
 		
-		System.out.println("=========================Run for set 1 completed running set2 starting ============================");
-		st.reset();
-		st.start();
+//		System.out.println("=========================Run for set 1 completed running set2 starting ============================");
+//		st.reset();
+//		st.start();
+//		while(st.getTime(TimeUnit.SECONDS) <= 100)
+//		{
+//			waitingQ = new ArrayList<Process>();
+//			readyQ = new ArrayList<Process>();
+//			runningQ = new ArrayList<Process>();
+//			time = (int) st.getTime(TimeUnit.SECONDS);
+//			System.out.println("@Time : " + time);
+//			//System.out.println();
+//			
+//			if(time % 4 == minorCycleRemainder)
+//			{
+//				System.out.println("Minor Cycle: " + minorCycle+ " over. Time  : " + time );
+//				minorCycle++;
+//				minorCycleLength+=4;
+//			}
+//			for(Process process : Set2)
+//			{
+//				
+//				
+//				ArrayList<Burst> burstArray = process.getBursts();
+//				int burstTotal = 0;
+//				
+//				for (int j =0; j < burstArray.size(); j++) // getting the burst time
+//				{
+//					burstTotal = burstTotal + burstArray.get(j).getLength();
+//				}
+//				
+//				if(burstTotal <= 0)
+//				{
+//					process.setCondition(Condition.TERMINATED);
+//				}
+//								
+//				//System.out.println("Burst time total for Process"+ process.getPid() +" :"+ sum);
+//				process.setTotalBurstTime(burstTotal);
+//				if(burstTotal > 0)
+//				{
+//					//System.out.println("Burst time total for Process"+ process.getPid() +" :"+process.getTotalBurstTime());
+//				}
+//				//System.out.println();
+//
+//				if(process.getState() == Thread.State.NEW && process.getBaseCycle() == minorCycle) 
+//				{
+//					process.setCondition(Condition.RUNNING);
+//					process.start();	
+//				}
+//				if(process.getState() == Thread.State.BLOCKED || process.getState() == Thread.State.TERMINATED
+//						|| process.getState() == Thread.State.WAITING)
+//				{
+//					System.out.println("P" + process.getPid() +"=========" + process.getState() +" "+ process.getCondition());
+//					//process.start();
+//					
+//				}
+//				
+//				if(process.getId() == 7 && process.getState() == Thread.State.WAITING)
+//				{
+//					process.resume();
+//					System.out.println("P" + process.getPid() +"=========" + process.getState());
+//					System.out.println("@@@@@@@@@@@@@@@@@@@@@");
+//				}
+////				if(time > 25)
+////				{
+////					process.setCondition(Condition.WAITING);
+////				}
+//				
+//			}
+//			
+//
+//			for(Process process : Set2)
+//			{
+//				if(process.getCondition() == Condition.WAITING)
+//				{
+//					waitingQ.add(process);
+//				}
+//				else if(process.getCondition() == Condition.READY)
+//				{
+//					readyQ.add(process);
+//				}
+//				else if(process.getCondition() == Condition.RUNNING)
+//				{
+//					runningQ.add(process);
+//				}
+//			}
+//			
+//			if(!runningQ.isEmpty())
+//			{
+//
+//				//System.out.println();
+//				System.out.print("CPU Usage:" );
+//				for(Process process : runningQ)
+//				{	
+//					System.out.print("P"+process.getPid() +" ");
+//				}
+//				System.out.println("running");
+//			}
+//			
+//			
+//			if(!waitingQ.isEmpty())
+//			{
+//				System.out.print("waitingQ: ");
+//				for(Process process : waitingQ)
+//				{	
+//					System.out.print("P"+process.getPid() +" ");
+//				}
+//				//System.out.println();
+//			}
+//			else
+//			{
+//				System.out.println("waitingQ: -");
+//			}
+//			
+//			if(!readyQ.isEmpty())
+//			{
+//
+//				//System.out.println();
+//				System.out.println("Processes in readyQ " );
+//				for(Process process : readyQ)
+//				{	
+//					System.out.print("P"+process.getPid() +" ");
+//				}
+//				//System.out.println();
+//
+//			}
+//			else
+//			{
+//				System.out.println("readyQ: -");
+//			}
+//			
+//			
+//			
+//			
+//			System.out.println();
+//						
+//			Thread.sleep(1000); //Sleep one second for the stopwatch timer 
+//		}
+//		
+		
+		
+//===============================================================================================
+		System.out.println("Starting set 3 =========================================================================");
+		
+		
+		
+		
+		NUMANode numNode = new NUMANode(512);
 		while(st.getTime(TimeUnit.SECONDS) <= 80)
 		{
 			waitingQ = new ArrayList<Process>();
@@ -243,7 +387,7 @@ public class Simulator {
 				minorCycle++;
 				minorCycleLength+=4;
 			}
-			for(Process process : Set2)
+			for(Process process : Set3)
 			{
 				
 				
@@ -268,33 +412,34 @@ public class Simulator {
 				}
 				//System.out.println();
 
-				if(process.getState() == Thread.State.NEW && process.getBaseCycle() == minorCycle) 
+				if(process.getState() == Thread.State.NEW && process.getBaseCycle() == minorCycle && numNode.canFit(process.getMemReq())) 
 				{
 					process.setCondition(Condition.RUNNING);
 					process.start();	
 				}
-				if(process.getState() == Thread.State.BLOCKED || process.getState() == Thread.State.TERMINATED
-						|| process.getState() == Thread.State.WAITING)
+				
+				if(process.getState() == Thread.State.NEW && process.getBaseCycle() < minorCycle && minorCycle > 7 && numNode.canFit(process.getMemReq()))
 				{
-					System.out.println("P" + process.getPid() +"=========" + process.getState());
-					System.out.println("===========!!!!!!!!!!!!!!!!!!!!!!!!=====================");
+					process.setCondition(Condition.RUNNING);
+					process.start();	
 				}
 				
 				
-				if(process.getId() == 7 )
+				if(process.getCondition() == Condition.RUNNING)
 				{
-					System.out.println("P" + process.getPid() +"=========" + process.getState());
-					System.out.println("@@@@@@@@@@@@@@@@@@@@@");
+					numNode.useMem(process);
 				}
-//				if(time > 25)
-//				{
-//					process.setCondition(Condition.WAITING);
-//				}
+				
+				
+				if(process.getCondition() == Condition.TERMINATED)
+				{
+					numNode.releaseMem(process);
+				}
 				
 			}
 			
 
-			for(Process process : Set2)
+			for(Process process : Set3)
 			{
 				if(process.getCondition() == Condition.WAITING)
 				{
@@ -325,7 +470,7 @@ public class Simulator {
 			
 			if(!waitingQ.isEmpty())
 			{
-				System.out.print("waitingQ: ");
+				System.out.println("waitingQ: ");
 				for(Process process : waitingQ)
 				{	
 					System.out.print("P"+process.getPid() +" ");
@@ -354,22 +499,16 @@ public class Simulator {
 				System.out.println("readyQ: -");
 			}
 			
+			System.out.println("Memory Usage:");
+			System.out.println("\t used Space" + numNode.memoryUsed);
+			System.out.println("\t NUMA Node available use: "+numNode.getTotalMemory());
 			
 			
+		
 			
-			System.out.println();
-						
+			
 			Thread.sleep(1000); //Sleep one second for the stopwatch timer 
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		

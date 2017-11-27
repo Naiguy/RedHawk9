@@ -137,7 +137,7 @@ public class Process extends Thread
 						
 						
 						java.util.Iterator<Burst> iterator = this.bursts.iterator();
-						System.out.println("data for p"+this.getId());
+						//System.out.println("data for p"+this.getId());
 						while(iterator.hasNext())
 						{
 						    Burst b = (Burst) iterator.next();
@@ -145,7 +145,7 @@ public class Process extends Thread
 						    if(b.getData() != null)
 						    {
 						    		sem.acquire();
-						    		//System.out.println("Counting Semaphore acquired");
+						    		System.out.println("Counting Semaphore acquired");
 						    }
 						    if(b.getLength() <= 0)
 						    {
@@ -155,7 +155,7 @@ public class Process extends Thread
 						}
 						System.out.println();
 						System.out.println("Run P"+this.pID+ " Condition:" + this.condition );
-						Thread.sleep(sleepTime);
+						Process.sleep(sleepTime);
 					
 					} 
 					 finally 
@@ -166,7 +166,7 @@ public class Process extends Thread
 							sem.release();
 							System.out.println("P"+this.pID  + " : available Semaphore permits now: "
 										+ sem.availablePermits());
-							this.condition = Condition.WAITING;
+							//this.condition = Condition.WAITING;
 							
 							
 							System.out.println("Finally  P"+this.pID+ " Condition:" + this.condition );

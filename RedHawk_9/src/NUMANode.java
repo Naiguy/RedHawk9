@@ -15,23 +15,25 @@ public class NUMANode {
 	// 4 nodes of 128
 	
 	//
-	
 	public int totalMemory;
 	public int memoryUsed;
 	ArrayList<Process> procs = new ArrayList<Process>();
 	ArrayList<String> data = new ArrayList<String>();
 	ArrayList<Process> doneProcs = new ArrayList<Process>();
-	public NUMANode(int mem) {
+	public NUMANode(int mem) 
+	{
 		memoryUsed = 0;
 		totalMemory = mem;
 	}
 	
-	public void useMem(Process proc) {
+	public void useMem(Process proc) 
+	{
 		
 		if(proc.getCondition() == Condition.RUNNING && !procs.contains(proc))
 		{
 			if (canFit(proc.getMemReq()))
 			{	
+			System.out.println("process"+proc.getPid()+" added " +proc.getMemReq() + "to numNode");
 			procs.add(proc);
 			memoryUsed = memoryUsed + proc.getMemReq();
 			}
@@ -54,29 +56,36 @@ public class NUMANode {
 		
 	}
 	
-	public boolean canFit(int AmttoFit) {
-		int n = memoryUsed + AmttoFit;
+	public boolean canFit(int AmountToFit)
+	{
+		int n = memoryUsed + AmountToFit;
 		if (n >= totalMemory) return false;
 		else return true;
 	}
-	
-	public boolean isFull() {
+	public int getMemoryUsed()
+	{
+		return memoryUsed;
+	}
+	public boolean isFull() 
+	{
 		if (totalMemory == memoryUsed) return true;
 		else return false;
 	}
 	
-	public int getTotalMemory()
+	public int getAvailableMemory()
 	{
 		return totalMemory - memoryUsed;
 	}
-
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	public String checkBursts(Process pr)
+	{
+		String got;
+		String product = null;
+		for (int i = 0; i< pr.getBursts().size(); i++) 
+			{
+			got = pr.getBursts().get(i).getData();
+			if (got != null) product = got;
+			}
+		return product;
+	}
 }

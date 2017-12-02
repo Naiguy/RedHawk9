@@ -1,10 +1,10 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
+//import java.util.Arrays;
+//import java.util.Calendar;
 
-import java.util.concurrent.Semaphore;
+//import java.util.concurrent.Semaphore;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
+//import javax.swing.text.html.HTMLDocument.Iterator;
 
 
 public class Process extends Thread
@@ -15,13 +15,14 @@ public class Process extends Thread
     private boolean hasCS; //does process has critical section?
 
     private ArrayList<Burst> bursts;
-    private String time;
+    //private String time;
     private int memReq; //process size MB
 	//static Semaphore semaphore = new Semaphore(2);
 	private int totalBurstTime;
-    private Condition condition;
-    
-    public Process(int id,  boolean hasCS, int memory, ArrayList<Burst> burstsForProcess, int bc, int period,Condition cond )
+    public Condition condition;
+    private int csStartTime ;
+    public boolean csFlag = false;
+    public Process(int id,  boolean hasCS, int memory, ArrayList<Burst> burstsForProcess, int bc, int period,Condition cond)
     {
     	  this.pID = id;
     	  this.baseCycle = bc;
@@ -96,35 +97,43 @@ public class Process extends Thread
 			this.totalBurstTime = totalBurstTime;
 	}
 	
+	
+	
 	@Override
 	public void run() 
 	{
 		Simulator sim = new Simulator();
-		int minorCycle = sim.getMinorCycle();
 		long sleepTime = 0;
 		int minorCycleTime = 4000;
-		Semaphore sem;
-
+		
 		while(this.condition == Condition.RUNNING)
 		{
-			 minorCycle = sim.getMinorCycle();
+			int time = sim.getTime2();	
 			 //do stuff with minor cycle
-			sem = sim.getSem();
+			//System.out.println("Queue Length: " + sem.getQueueLength());
 			if(this.hasCS)
 			{
-				System.out.println();
-				System.out.println("Has Critical section pid" + this.pID);
-				
+//				System.out.println();
+//				System.out.println("Has Critical section pid" + this.pID);
 				try
 				{
-					
+					/*
+					 * The reason these are not 
+					 */
 					try
 					{
+						Sync.getLock(); // get  lock from semaphore from Sync class 
 						int thisPeriod = this.period-1;
 						
 						if(thisPeriod == 0)
 						{
 							thisPeriod = 1;
+						}
+						//this.condition = Condition.CS;
+						
+						if(this.totalBurstTime == 1)
+						{
+							System.out.println("P"+this.pID);
 						}
 						
 						int burst = 0; // index for burst array; 
@@ -137,15 +146,14 @@ public class Process extends Thread
 						
 						
 						java.util.Iterator<Burst> iterator = this.bursts.iterator();
-						//System.out.println("data for p"+this.getId());
 						while(iterator.hasNext())
 						{
 						    Burst b = (Burst) iterator.next();
-							System.out.print(b.getData());
-						    if(b.getData() != null)
+						    
+							if(b.getData() != null && !csFlag)
 						    {
-						    		sem.acquire();
-						    		System.out.println("Counting Semaphore acquired");
+								csFlag=true;
+								System.out.println("P"+this.pID+" Accessing " + b.getData());
 						    }
 						    if(b.getLength() <= 0)
 						    {
@@ -153,24 +161,12 @@ public class Process extends Thread
 						    }
 
 						}
-						System.out.println();
-						System.out.println("Run P"+this.pID+ " Condition:" + this.condition );
-						Process.sleep(sleepTime);
-					
-					} 
+						Process.sleep(sleepTime);						
+					 } 
 					 finally 
 					 {
-
-							// calling release() after a successful acquire()
-							System.out.println("P"+this.pID + " : releasing lock...");
-							sem.release();
-							System.out.println("P"+this.pID  + " : available Semaphore permits now: "
-										+ sem.availablePermits());
-							//this.condition = Condition.WAITING;
-							
-							
-							System.out.println("Finally  P"+this.pID+ " Condition:" + this.condition );
-
+							Sync.releaseLock();
+							System.out.println("Releasing lock");
 					}
 				}
 				catch (InterruptedException e) 

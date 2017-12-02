@@ -1,1 +1,1 @@
-public enum Condition { WAITING, READY, RUNNING, TERMINATED };
+public enum Condition { WAITING, READY, RUNNING, TERMINATED,CS };

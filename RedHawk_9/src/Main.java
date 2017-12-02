@@ -39,7 +39,7 @@ public class Main {
 					}
 
 				} finally {
-
+					System.out.println("Finally!!!!");
 					// calling release() after a successful acquire()
 					System.out.println(name + " : releasing lock...");
 					semaphore.release();
@@ -64,22 +64,57 @@ public class Main {
 				+ semaphore.availablePermits());
 
 		MyATMThread t1 = new MyATMThread("A");
-		t1.start();
+		//t1.start();
 
 		MyATMThread t2 = new MyATMThread("B");
-		t2.start();
+		//t2.start();
 
 		MyATMThread t3 = new MyATMThread("C");
-		t3.start();
+	//	t3.start();
 
 		MyATMThread t4 = new MyATMThread("D");
-		t4.start();
+	//	t4.start();
 
 		MyATMThread t5 = new MyATMThread("E");
-		t5.start();
+	//	t5.start();
 
 		MyATMThread t6 = new MyATMThread("F");
-		t6.start();
+//		t6.start();
+		
+		
+		for(int i = 0; i < 6 ; i++)
+		{
+			if(i == 0)
+			{
+				t1.start();
+			}
+			else if(i == 1)
+			{
+				t2.start();
+			}
+			else if(i == 2)
+			{
+				t3.start();
+			}
+			else if(i == 3)
+			{
+				t4.start();
+			}
+			else if(i == 4)
+			{
+				t5.start();
+			}
+			else
+			{
+				t6.start();
+			}
+		}
+		
+		
+		
+		
+		
+		
 
 	}
 }

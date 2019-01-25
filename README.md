@@ -1,2 +1,2 @@
 # RedHawk9
-A project developed to emulate RedHawk OS processing.
+A coursework project developed to emulate RedHawk OS processing.
